@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="WordLearningApp.Views.DeckPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewmodel="clr-namespace:WordLearningApp.ViewModels">
+
+    <StackLayout>
+        <Label
+            Margin="10"
+            FontAttributes="Bold"
+            FontSize="Header"
+            Text="Words" />
+
+        <CollectionView ItemsSource="{Binding Words}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame
+                        Margin="5"
+                        Padding="10"
+                        BorderColor="Gray">
+                        <StackLayout>
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="18"
+                                Text="{Binding Term}" />
+                            <Label
+                                FontAttributes="None"
+                                FontSize="14"
+                                Text="{Binding Definition}" />
+                        </StackLayout>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </StackLayout>
+</ContentPage>

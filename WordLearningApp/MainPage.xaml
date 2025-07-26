@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="WordLearningApp.MainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewmodel="clr-namespace:WordLearningApp.ViewModels">
+
+    <ContentPage.BindingContext>
+        <viewmodel:MainPageViewModel />
+    </ContentPage.BindingContext>
+
+    <StackLayout>
+        <Grid Margin="10" ColumnDefinitions="*,*">
+            <Label
+                Grid.Column="0"
+                Margin="10"
+                FontAttributes="Bold"
+                FontSize="Header"
+                Text="Decks" />
+            <Button
+                Grid.Column="1"
+                Command="{Binding ShowAddDeckPageCommand}"
+                Text="Add" />
+        </Grid>
+
+        <CollectionView x:Name="DeckCollection" ItemsSource="{Binding Decks}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame
+                        Margin="5"
+                        Padding="10"
+                        BorderColor="Gray">
+                        <Grid ColumnDefinitions="*,2*">
+                            <StackLayout Margin="20,0,0,0">
+                                <Label
+                                    Grid.Column="0"
+                                    FontAttributes="Bold"
+                                    FontSize="Medium"
+                                    HorizontalTextAlignment="Start"
+                                    Text="{Binding Name}" />
+                                <Label
+                                    Grid.Column="1"
+                                    HorizontalTextAlignment="Start"
+                                    Text="{Binding Words.Count, StringFormat='Words: {0}'}" />
+                            </StackLayout>
+                            <Button
+                                Grid.Column="2"
+                                Command="{Binding BindingContext.GoToDeckPageCommand, Source={x:Reference DeckCollection}}"
+                                CommandParameter="{Binding .}"
+                                Text="Go" />
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </StackLayout>
+
+</ContentPage>
