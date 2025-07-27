@@ -11,7 +11,7 @@ namespace WordLearningApp.ViewModels
     {
         [ObservableProperty] private string term;
         [ObservableProperty] private string translation;
-        private readonly Lang src, dst;
+        private Deck deck;
 
         public event Action<Word?> OnResultReturned;
 
@@ -21,8 +21,7 @@ namespace WordLearningApp.ViewModels
         }
         public AddWordViewModel(Deck deck)
         {
-            src = deck.SrcLanguage;
-            dst = deck.DstLanguage;
+            this.deck = deck;
         }
 
         [RelayCommand]
@@ -30,7 +29,14 @@ namespace WordLearningApp.ViewModels
         {
             if (!string.IsNullOrWhiteSpace(Term) && !string.IsNullOrWhiteSpace(Translation))
             {
-                Word word = new(Term, Translation, src, dst);
+                Word word = new()
+                {
+                    Term = Term,
+                    Translation = Translation,
+                    SrcLanguage = deck.SrcLanguage,
+                    DstLanguage = deck.DstLanguage,
+                    DeckId = deck.Id
+                };
                 OnResultReturned?.Invoke(word);
                 await Shell.Current.Navigation.PopModalAsync();
             }

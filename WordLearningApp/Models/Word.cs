@@ -1,11 +1,17 @@
-﻿namespace WordLearningApp.Models
+﻿using SQLite;
+
+namespace WordLearningApp.Models
 {
-    public class Word(string term, string translation, Lang srcLanguage, Lang dstLanguage)
+    [Table("Words")]
+    public class Word
     {
-        public string Term { get; set; } = term;
-        public string Translation { get; set; } = translation;
-        public Lang SrcLanguage { get; set; } = srcLanguage;
-        public Lang DstLanguage { get; set; } = dstLanguage;
+        [PrimaryKey, AutoIncrement] public int Id { get; set; }
+        public string Term { get; set; }
+        public string Translation { get; set; }
+        public Lang SrcLanguage { get; set; }
+        public Lang DstLanguage { get; set; }
+
+        [Indexed] public int DeckId { get; set; } //FK
     }
 
 }

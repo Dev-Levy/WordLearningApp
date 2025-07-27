@@ -24,7 +24,12 @@ namespace WordLearningApp.ViewModels
         {
             if (!string.IsNullOrWhiteSpace(DeckName))
             {
-                Deck deck = new(DeckName, SelectedSourceLanguage, SelectedTargetLanguage);
+                Deck deck = new()
+                {
+                    Name = DeckName,
+                    SrcLanguage = SelectedSourceLanguage,
+                    DstLanguage = SelectedTargetLanguage
+                };
                 OnResultReturned?.Invoke(deck);
                 await Shell.Current.Navigation.PopModalAsync();
             }

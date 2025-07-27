@@ -1,61 +1,40 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Maui.Controls;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using WordLearningApp.Models;
+using WordLearningApp.Services.Database;
 using WordLearningApp.Views;
 
 namespace WordLearningApp.ViewModels
 {
     public partial class MainPageViewModel : ObservableObject
     {
+        private readonly IDatabaseService db;
+
         [ObservableProperty]
-        private ObservableCollection<Deck> decks;
+        private ObservableCollection<Deck> decks = [];
 
-        public MainPageViewModel()
+        public MainPageViewModel() { }
+        public MainPageViewModel(IDatabaseService databaseService)
         {
-            Decks = PopulateDecks(); //this should be replaced by DB file load
+            db = databaseService;
+            LoadDecksCommand.ExecuteAsync(null);
         }
-        private static ObservableCollection<Deck> PopulateDecks()
+
+        [RelayCommand]
+        private async Task LoadDecksAsync()
         {
-            ObservableCollection<Deck> decks = [];
-            Deck? currentDeck = null;
-
-            string[] lines = """
-                            #Animals;Hungarian;English
-                            Macska;Cat
-                            Kutya;Dog
-                            Egér;Mouse
-                            #Fruits;Hungarian;English
-                            Alma;Apple
-                            Körte;Pear
-                            Narancs;Orange
-                            """.Split(Environment.NewLine);
-
-            foreach (string line in lines)
+            var decks = await db.GetDecksAsync();
+            Decks.Clear();
+            foreach (var deck in decks)
             {
-                string[] values = line.Split(';');
-                if (line.StartsWith('#'))
-                {
-                    currentDeck = new Deck(name: values[0][1..],
-                                    srcLanguage: Enum.Parse<Lang>(values[1]),
-                                    dstLanguage: Enum.Parse<Lang>(values[2]));
-                    decks.Add(currentDeck);
-                }
-                else
-                {
-                    currentDeck?.Words.Add(new(term: values[0],
-                             translation: values[1],
-                             srcLanguage: currentDeck.SrcLanguage,
-                             dstLanguage: currentDeck.DstLanguage));
-                }
+                deck.Words = [.. await db.GetWordsForDeckAsync(deck.Id)];
+                Decks.Add(deck);
             }
-
-            return decks;
         }
 
         [RelayCommand]
@@ -81,6 +60,7 @@ namespace WordLearningApp.ViewModels
                 if (newDeck != null)
                 {
                     Decks.Add(newDeck);
+                    _ = db.SaveDeckAsync(newDeck); // Fire-and-forget async operation haha
                     Debug.WriteLine("Added deck in VM: " + GetHashCode());
                     Debug.WriteLine("Deck count: " + Decks.Count);
                 }

@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Maui.Controls.Hosting;
 using Microsoft.Maui.Hosting;
+using WordLearningApp.Services.Database;
 using WordLearningApp.ViewModels;
 using WordLearningApp.Views;
 
@@ -34,6 +35,8 @@ namespace WordLearningApp
             builder.Services.AddTransient<DeckPageViewModel>();
             builder.Services.AddTransient<AddDeckViewModel>();
             builder.Services.AddTransient<AddWordViewModel>();
+
+            builder.Services.AddSingleton<IDatabaseService, DatabaseService>();
 
             return builder.Build();
         }

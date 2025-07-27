@@ -1,12 +1,15 @@
-﻿using System.Collections.ObjectModel;
+﻿using SQLite;
+using System.Collections.ObjectModel;
 
 namespace WordLearningApp.Models
 {
-    public class Deck(string name, Lang srcLanguage, Lang dstLanguage)
+    [Table("Decks")]
+    public class Deck()
     {
-        public string Name { get; set; } = name;
-        public ObservableCollection<Word> Words { get; set; } = [];
-        public Lang SrcLanguage { get; set; } = srcLanguage;
-        public Lang DstLanguage { get; set; } = dstLanguage;
+        [PrimaryKey, AutoIncrement] public int Id { get; set; }
+        public string Name { get; set; }
+        [Ignore] public ObservableCollection<Word> Words { get; set; } = [];
+        public Lang SrcLanguage { get; set; }
+        public Lang DstLanguage { get; set; }
     }
 }
