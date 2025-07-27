@@ -18,6 +18,16 @@
             Text="Add New Deck" />
 
         <Entry Placeholder="Deck Name" Text="{Binding DeckName}" />
+        <Picker
+            Title="Source Language"
+            ItemsSource="{Binding Languages}"
+            SelectedIndex="0"
+            SelectedItem="{Binding SelectedSourceLanguage}" />
+        <Picker
+            Title="Target Language"
+            ItemsSource="{Binding Languages}"
+            SelectedIndex="1"
+            SelectedItem="{Binding SelectedTargetLanguage}" />
 
         <HorizontalStackLayout HorizontalOptions="Center" Spacing="20">
             <Button Command="{Binding CancelCommand}" Text="Cancel" />

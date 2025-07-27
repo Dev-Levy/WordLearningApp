@@ -3,9 +3,9 @@ using WordLearningApp.ViewModels;
 
 namespace WordLearningApp.Views;
 
-public partial class AddDeckPage : ContentPage
+public partial class AddWordPage : ContentPage
 {
-    public AddDeckPage(AddDeckViewModel vm)
+    public AddWordPage(AddWordViewModel vm)
     {
         InitializeComponent();
         BindingContext = vm;

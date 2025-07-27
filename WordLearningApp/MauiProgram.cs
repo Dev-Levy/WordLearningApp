@@ -20,14 +20,20 @@ namespace WordLearningApp
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
-            builder.Services.AddTransient<MainPage>();
-            builder.Services.AddTransient<MainPageViewModel>();
-            builder.Services.AddTransient<DeckPage>();
-            builder.Services.AddTransient<DeckPageViewModel>();
-
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
+            // Register Pages
+            builder.Services.AddSingleton<MainPage>();
+            builder.Services.AddTransient<DeckPage>();
+            builder.Services.AddTransient<AddDeckPage>();
+            builder.Services.AddTransient<AddWordPage>();
+
+            // Register ViewModels
+            builder.Services.AddSingleton<MainPageViewModel>();
+            builder.Services.AddTransient<DeckPageViewModel>();
+            builder.Services.AddTransient<AddDeckViewModel>();
+            builder.Services.AddTransient<AddWordViewModel>();
 
             return builder.Build();
         }

@@ -8,7 +8,6 @@ namespace WordLearningApp
         public AppShell()
         {
             InitializeComponent();
-
             Routing.RegisterRoute(nameof(DeckPage), typeof(DeckPage));
         }
     }

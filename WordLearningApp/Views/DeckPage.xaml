@@ -5,30 +5,42 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:viewmodel="clr-namespace:WordLearningApp.ViewModels">
 
-    <StackLayout>
-        <Label
-            Margin="10"
-            FontAttributes="Bold"
-            FontSize="Header"
-            Text="Words" />
+    <ContentPage.BindingContext>
+        <viewmodel:DeckPageViewModel />
+    </ContentPage.BindingContext>
 
-        <CollectionView ItemsSource="{Binding Words}">
+    <StackLayout>
+        <Grid Margin="0,10" ColumnDefinitions="*,*">
+            <Label
+                Grid.Column="0"
+                Margin="10"
+                FontAttributes="Bold"
+                FontSize="Header"
+                Text="{Binding CurrentDeck.Name}" />
+            <Button
+                Grid.Column="1"
+                Command="{Binding ShowAddWordPageCommand}"
+                Text="Add" />
+        </Grid>
+        <CollectionView ItemsSource="{Binding CurrentDeck.Words}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Frame
                         Margin="5"
                         Padding="10"
                         BorderColor="Gray">
-                        <StackLayout>
+                        <Grid ColumnDefinitions="*,*">
                             <Label
+                                Grid.Column="0"
                                 FontAttributes="Bold"
                                 FontSize="18"
                                 Text="{Binding Term}" />
                             <Label
-                                FontAttributes="None"
-                                FontSize="14"
-                                Text="{Binding Definition}" />
-                        </StackLayout>
+                                Grid.Column="1"
+                                FontAttributes="Bold"
+                                FontSize="18"
+                                Text="{Binding Translation}" />
+                        </Grid>
                     </Frame>
                 </DataTemplate>
             </CollectionView.ItemTemplate>

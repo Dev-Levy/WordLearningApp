@@ -1,16 +1,22 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Maui.Controls;
+using System;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using WordLearningApp.Models;
 
 namespace WordLearningApp.ViewModels
 {
     public partial class AddDeckViewModel : ObservableObject
     {
-        [ObservableProperty]
-        private string deckName;
+        public ObservableCollection<Lang> Languages { get; } = [.. Enum.GetValues<Lang>()];
 
+        [ObservableProperty] private string deckName;
+        [ObservableProperty] private Lang selectedSourceLanguage;
+        [ObservableProperty] private Lang selectedTargetLanguage;
+
+        public event Action<Deck?> OnResultReturned;
         public AddDeckViewModel() { }
 
         [RelayCommand]
@@ -18,7 +24,8 @@ namespace WordLearningApp.ViewModels
         {
             if (!string.IsNullOrWhiteSpace(DeckName))
             {
-                WeakReferenceMessenger.Default.Send(new Messages.DeckAddedMessage(DeckName));
+                Deck deck = new(DeckName, SelectedSourceLanguage, SelectedTargetLanguage);
+                OnResultReturned?.Invoke(deck);
                 await Shell.Current.Navigation.PopModalAsync();
             }
         }
@@ -26,6 +33,7 @@ namespace WordLearningApp.ViewModels
         [RelayCommand]
         async Task Cancel()
         {
+            OnResultReturned?.Invoke(null);
             await Shell.Current.Navigation.PopModalAsync();
         }
     }

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="WordLearningApp.Views.AddWordPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewmodel="clr-namespace:WordLearningApp.ViewModels">
+
+    <ContentPage.BindingContext>
+        <viewmodel:AddWordViewModel />
+    </ContentPage.BindingContext>
+
+    <VerticalStackLayout Padding="20" Spacing="15">
+        <Label
+            FontAttributes="Bold"
+            FontSize="24"
+            HorizontalOptions="Center"
+            Text="Add New Word" />
+
+        <Entry Placeholder="Term" Text="{Binding Term}" />
+        <Entry Placeholder="Translation" Text="{Binding Translation}" />
+
+        <HorizontalStackLayout HorizontalOptions="Center" Spacing="20">
+            <Button Command="{Binding CancelCommand}" Text="Cancel" />
+            <Button Command="{Binding AddWordCommand}" Text="Add" />
+        </HorizontalStackLayout>
+    </VerticalStackLayout>
+</ContentPage>
