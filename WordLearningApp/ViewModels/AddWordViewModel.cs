@@ -11,14 +11,11 @@ namespace WordLearningApp.ViewModels
     {
         [ObservableProperty] private string term;
         [ObservableProperty] private string translation;
-        private Deck deck;
+        private readonly Deck deck;
 
         public event Action<Word?> OnResultReturned;
 
-        public AddWordViewModel()
-        {
-
-        }
+        public AddWordViewModel() { }
         public AddWordViewModel(Deck deck)
         {
             this.deck = deck;
