@@ -54,5 +54,22 @@ namespace WordLearningApp.ViewModels
                 }
             }
         }
+
+        [RelayCommand]
+        async Task DeleteWord(Word word)
+        {
+            if (word == null)
+                return;
+
+            bool confirm = await Application.Current.MainPage
+                .DisplayAlert("Delete Word", $"Are you sure you want to delete '{word.Term}'?", "Yes", "No");
+
+            if (!confirm)
+                return;
+
+            CurrentDeck.Words.Remove(word);
+
+            await db.DeleteWordAsync(word);
+        }
     }
 }

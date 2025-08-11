@@ -15,31 +15,39 @@
                 Grid.Column="0"
                 Margin="10"
                 FontAttributes="Bold"
-                FontSize="Header"
+                FontSize="30"
                 Text="{Binding CurrentDeck.Name}" />
             <Button
                 Grid.Column="1"
                 Command="{Binding ShowAddWordPageCommand}"
                 Text="Add" />
         </Grid>
-        <CollectionView ItemsSource="{Binding CurrentDeck.Words}">
+        <CollectionView x:Name="WordCollection" ItemsSource="{Binding CurrentDeck.Words}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Frame
                         Margin="5"
                         Padding="10"
                         BorderColor="Gray">
-                        <Grid ColumnDefinitions="*,*">
+                        <Grid ColumnDefinitions="2*,2*,*">
                             <Label
                                 Grid.Column="0"
                                 FontAttributes="Bold"
                                 FontSize="18"
-                                Text="{Binding Term}" />
+                                Text="{Binding Term}"
+                                VerticalOptions="Center" />
                             <Label
                                 Grid.Column="1"
                                 FontAttributes="Bold"
                                 FontSize="18"
-                                Text="{Binding Translation}" />
+                                Text="{Binding Translation}"
+                                VerticalOptions="Center" />
+                            <Button
+                                Grid.Column="2"
+                                Margin="10,0"
+                                Command="{Binding BindingContext.DeleteWordCommand, Source={x:Reference WordCollection}}"
+                                CommandParameter="{Binding .}"
+                                Text="X" />
                         </Grid>
                     </Frame>
                 </DataTemplate>

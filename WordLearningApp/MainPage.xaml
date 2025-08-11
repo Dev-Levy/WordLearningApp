@@ -15,8 +15,9 @@
                 Grid.Column="0"
                 Margin="10"
                 FontAttributes="Bold"
-                FontSize="Header"
-                Text="Decks" />
+                FontSize="30"
+                Text="Decks"
+                VerticalOptions="Center" />
             <Button
                 Grid.Column="1"
                 Command="{Binding ShowAddDeckPageCommand}"
@@ -30,8 +31,11 @@
                         Margin="5"
                         Padding="10"
                         BorderColor="Gray">
-                        <Grid ColumnDefinitions="*,*,2*">
-                            <StackLayout Grid.Column="0" Margin="10,0,0,0">
+                        <Grid ColumnDefinitions="*,*,2*,*">
+                            <StackLayout
+                                Grid.Column="0"
+                                Margin="10,0,0,0"
+                                VerticalOptions="Center">
                                 <Label
                                     Grid.Column="0"
                                     FontAttributes="Bold"
@@ -52,6 +56,12 @@
                                 Command="{Binding BindingContext.GoToDeckPageCommand, Source={x:Reference DeckCollection}}"
                                 CommandParameter="{Binding .}"
                                 Text="Go" />
+                            <Button
+                                Grid.Column="3"
+                                Margin="20,0"
+                                Command="{Binding BindingContext.DeleteDeckCommand, Source={x:Reference DeckCollection}}"
+                                CommandParameter="{Binding .}"
+                                Text="X" />
                         </Grid>
                     </Frame>
                 </DataTemplate>

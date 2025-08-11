@@ -67,5 +67,21 @@ namespace WordLearningApp.ViewModels
             }
         }
 
+        [RelayCommand]
+        async Task DeleteDeck(Deck deck)
+        {
+            if (deck == null)
+                return;
+
+            bool confirm = await Application.Current.MainPage
+                .DisplayAlert("Delete Deck", $"Are you sure you want to delete '{deck.Name}'?", "Yes", "No");
+
+            if (!confirm)
+                return;
+
+            Decks.Remove(deck);
+
+            await db.DeleteDeckAsync(deck);
+        }
     }
 }
